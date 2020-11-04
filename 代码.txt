@@ -1,0 +1,268 @@
+package application;
+
+
+import javax.swing.*;
+
+import number.*;
+
+import java.awt.*;
+
+ 	
+public class calculationExcerciseApplication extends createNumber{
+	public int numberOfCal = 0;
+	public int right = 0;
+	public int wrong = 0;
+	createNumber n;
+	JFrame mainFrame;
+	JPanel numberOne;
+	JPanel numberTwo;
+	JPanel symbol;
+	int flag;
+	JPanel line;
+	JTextField answer;
+	JButton checkButton;
+	JPanel checkAnswer;
+	JPanel showJpanel;
+	JButton nextButton;
+	int answerStringToInt;
+	JPanel resultString;
+	JPanel rightShow;
+	JPanel wrongShow;
+	JPanel numberShow;
+	
+	calculationExcerciseApplication(){
+		this.mainFrame = new JFrame("100以内加减法练习小软件");
+		this.n = new createNumber();
+		this.numberOne = new JPanel();
+		this.numberTwo = new JPanel();
+		this.symbol = new JPanel();
+		this.flag = n.getFlag();
+		this.line = new JPanel();
+		this.answer = new JTextField(5);	
+		this.checkButton = new JButton("评判");
+		this.checkAnswer = new JPanel();
+		this.showJpanel = new JPanel();
+		this.nextButton = new JButton("下一题");
+		this.resultString = new JPanel();
+		this.rightShow = new JPanel();
+		this.wrongShow = new JPanel();
+		this.numberShow = new JPanel();
+	}
+	public  void mainFrame() {
+		//createNumber n = new createNumber();
+		this.mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//mainFrame.getContentPane().setBackground(Color.white);//获取JFrame内容的根组件
+		
+		
+		
+		this.mainFrame.setLocation(300, 100);		
+		this.mainFrame.setSize(960, 720);
+		this.mainFrame.setLayout(null);
+		
+		numberOne.add(new JLabel(String.valueOf(n.getNumberOne())));
+		numberOne.setBounds(400, 200, 20, 20);
+		//numberOne.setFont(new Font("黑体", Font.BOLD, 5));
+		mainFrame.add(numberOne);
+
+		numberShow.add(new JLabel("出题总数："+String.valueOf(numberOfCal)));
+		numberShow.setBounds(600, 170, 250, 20);
+		mainFrame.add(numberShow);
+		
+		
+		rightShow.add(new JLabel("正确题数："+String.valueOf(right)));
+		wrongShow.add(new JLabel("错误题数："+String.valueOf(wrong)));
+		rightShow.setBounds(600, 200, 250, 20);
+		wrongShow.setBounds(600, 230, 250, 20);
+		mainFrame.add(rightShow);
+		mainFrame.add(wrongShow);
+		
+		
+		if(flag % 2 == 0) {
+			//偶数代表加法
+			symbol.add(new JLabel("+"));
+		}
+		if(flag % 2 == 1) {
+			//奇数代表减法
+			symbol.add(new JLabel("-"));
+		}
+		symbol.setBounds(350, 220, 20, 20);
+		mainFrame.add(symbol);
+			
+		
+		numberTwo.add(new JLabel(String.valueOf(n.getNumberTwo())));
+		numberTwo.setBounds(400, 220, 20, 20);		
+		mainFrame.add(numberTwo);
+				
+		
+		line.add(new JLabel("------------------"));
+		line.setBounds(360,240,100,20);
+		mainFrame.add(line);
+		
+		
+		line.add(answer);		
+		answer.setBounds(400,260,40,20);
+		mainFrame.add(answer);
+		
+		
+		checkButton.setBounds(460, 260, 100, 20);
+		mainFrame.add(checkButton);
+		
+		
+		checkAnswer.add(new JLabel("结果："));
+		checkAnswer.setBounds(300,280,100,20);
+		mainFrame.add(checkAnswer);
+
+		
+		nextButton.setBounds(460, 230, 100, 20);
+		mainFrame.add(nextButton);
+		
+		nextButton.addActionListener((e) -> {
+			n = this.next();
+		});
+		
+		checkButton.addActionListener((e) -> {
+			answerStringToInt = Integer.valueOf(answer.getText());
+			System.out.print(answerStringToInt);
+			this.checkAnswer(n.getNumberOne(),n.getNumberTwo());	
+		}
+		);
+		
+		
+
+		mainFrame.getContentPane().setVisible(true);
+		mainFrame.setVisible(true);
+	}
+	public createNumber next() {
+		numberOfCal++;
+		numberShow.removeAll();
+		numberShow.repaint();
+		numberShow.add(new JLabel("出题总数："+String.valueOf(numberOfCal)));
+		numberShow.setBounds(600, 170, 250, 20);
+		mainFrame.add(numberShow);
+		mainFrame.getContentPane().setVisible(true);
+		mainFrame.setVisible(true);
+		
+		createNumber n1 = new createNumber();
+		 answer.setText("");
+		 numberOne.removeAll();
+		 numberOne.repaint();
+		 numberOne.add(new JLabel(String.valueOf(n1.getNumberOne())));
+		 numberOne.setBounds(400, 200, 20, 20);
+			mainFrame.add(numberOne);
+			
+			
+			flag = n1.getFlag();
+			symbol.removeAll();
+			symbol.repaint();
+			if(flag % 2 == 0) {
+				//偶数代表加法
+				symbol.add(new JLabel("+"));
+			}
+			if(flag % 2 == 1) {
+				//奇数代表减法
+				symbol.add(new JLabel("-"));
+			}
+			symbol.setBounds(350, 220, 20, 20);
+			mainFrame.add(symbol);
+			
+
+			numberTwo.removeAll();
+			numberTwo.repaint();
+			numberTwo.add(new JLabel(String.valueOf(n1.getNumberTwo())));
+			numberTwo.setBounds(400, 220, 20, 20);		
+			mainFrame.add(numberTwo);
+			
+			mainFrame.getContentPane().setVisible(true);
+			mainFrame.setVisible(true);
+			return n1;
+	}
+	public  void checkAnswer(int n1, int n2) {
+		if(flag % 2 == 0) {
+			if(answerStringToInt == n1 + n2) {
+				resultString.setBounds(370, 280, 250, 20);
+				resultString.removeAll();
+				resultString.repaint();
+				resultString.add(new JLabel("正确，小朋友你真棒"));
+				mainFrame.add(resultString);
+				mainFrame.getContentPane().setVisible(true);
+				mainFrame.setVisible(true);
+				right++;
+				rightShow.removeAll();
+				rightShow.repaint();
+				rightShow.add(new JLabel("正确题数："+String.valueOf(right)));
+				rightShow.setBounds(600, 200, 120, 20);
+				mainFrame.add(rightShow);
+
+			}
+			if(answerStringToInt != n1 + n2) {
+				resultString.setBounds(370, 280, 250, 20);
+				resultString.removeAll();
+				resultString.repaint();
+				resultString.add(new JLabel("错误，结果应该是"+(n1 + n2)));
+				mainFrame.add(resultString);
+				mainFrame.getContentPane().setVisible(true);
+				mainFrame.setVisible(true);
+				wrong++;
+				wrongShow.removeAll();
+				wrongShow.repaint();
+				wrongShow.add(new JLabel("错误题数："+String.valueOf(wrong)));
+				wrongShow.setBounds(600, 230, 120, 20);
+				mainFrame.add(wrongShow);
+			}			
+		}
+		if(flag % 2 == 1) {
+			if(answerStringToInt == n1 - n2) {
+				resultString.setBounds(370, 280, 250, 20);
+				resultString.removeAll();
+				resultString.repaint();
+				resultString.add(new JLabel("正确，小朋友你真棒"));
+				mainFrame.add(resultString);
+				mainFrame.getContentPane().setVisible(true);
+				mainFrame.setVisible(true);
+				right++;
+				rightShow.removeAll();
+				rightShow.repaint();
+				rightShow.add(new JLabel("正确题数："+String.valueOf(right)));
+				rightShow.setBounds(600, 200, 120, 20);
+				mainFrame.add(rightShow);
+			}
+			if(answerStringToInt != n1 - n2) {
+				resultString.setBounds(370, 280, 250, 20);
+				resultString.removeAll();
+				resultString.repaint();
+				resultString.add(new JLabel("错误，结果应该是"+(n1 - n2)));
+				mainFrame.add(resultString);
+				mainFrame.getContentPane().setVisible(true);
+				mainFrame.setVisible(true);
+				wrong++;
+				wrongShow.removeAll();
+				wrongShow.repaint();
+				wrongShow.add(new JLabel("错误题数："+String.valueOf(wrong)));
+				wrongShow.setBounds(600, 230, 120, 20);
+				mainFrame.add(wrongShow);
+			}			
+		}
+		mainFrame.getContentPane().setVisible(true);
+		mainFrame.setVisible(true);
+	}
+	public static void main(String argv[]) {
+		calculationExcerciseApplication cal = new calculationExcerciseApplication();
+		cal.mainFrame();
+	}
+}
+1. A国从该国进口185万美元的纺织品。该国将此笔货款存入它在A国的开户银行；（贷方:贸易出口项目，同时这笔货款支出由A国在国外的银行支付给该国，引起该国短期资本的增加，故应记入借方:金融帐户的其他投资）﹔
+2.该国从B国购入价值3500万美元的机器设备（收入记入借方:贸易进口项目中，同
+时这笔货款支出由该国在国外的银行支付，这是短期资本的减少，故应记入贷方:金融帐户的其他投资，由该国驻B国的银行机构以美元支票付款;
+3．该国向C国提供8万美元的工业品援助（借方:无偿转移支出，贷方:贸易出口）;
+4．该国动用外汇储备60万美元，分别从A国和D国进口小麦（借方:贸易进口;贷方:
+储备资产减少）;
+5. E国保险公司承保(2)、(4）项商品，该国支付保险费3万美元（借方:非贸易输入;贷方:金融帐户的其他投资）;
+6.该国租用F国的船只运送（2)、(4）两项商品，运费12万美元，付款方式同(2)(借方:非贸易输入;贷方:金融帐户的其他投资）;
+7. 外国游客在该国旅游，收入为15万美元（借方:储备资产的增加;贷方，非贸易输出）;
+8.外国在该国直接投资设备1500万美元（借方:非贸易输入;贷方，金融项目中的直接投资）。
+9.H国在国外发行价值100万美元的10年期债券，该笔款项存入国外银行（借方:金
+融帐户的其他投资;贷方，金融帐户的证券投资）;
+10.该国向国际货币基金组织借入短期资金30万美元，以增加外汇储备（借方:储备资
+产增加;贷方，金融帐户的其他投资）﹔
+f1 = new File("burglarnetwork.txt");
+f2 = new File("burglarqueries.txt");
